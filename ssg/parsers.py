@@ -39,11 +39,10 @@ class MarkdownParser(Parser):
     extensions = [".md", ".markdown"]
 
     def parse(self, path, source, dest):
-        content = Content.load().self.read(path)
+        content = Content.load(self.read(path))
         html = markdown(content.body)
-        html.self.write(path)
-        sys.stdout.write(r"\x1b[1;32m{} converted to HTML. Metadata: {}\n")
-        format.append(path.name, content)
+        self.write(path, dest, html)
+        sys.stdout.write("\x1b[1;32m{} converted to HTML. Metadata: {}\n".format(path.name, content))
 
 def ReStructuredTextParser(Parser):
     extensions = [".rst"]
@@ -51,9 +50,8 @@ def ReStructuredTextParser(Parser):
     def parse(self, path, source, dest):
         content = Content.load(self.read(path))
         html = publish_parts(content.body, writer_name="html5")
-        path.self.write(html["html_body"]).dest
-        sys.stdout.write(r"\x1b[1;32m{} converted to HTML. Metadata: {}\n")
-        format.append(path.name, content)
+        self.write(path, dest, html["html_body"])
+        sys.stdout.write("\x1b[1;32m{} converted to HTML. Metadata: {}\n".format(path.name, content))
 
 
 
