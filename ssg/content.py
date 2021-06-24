@@ -1,53 +1,49 @@
 import re
-from yaml import load
-from yaml import FullLoader
 
 from collections.abc import Mapping
+from yaml import load, FullLoader
 
 class Content(Mapping):
-    __delimiter = "^(?:-|\+){3}\s*$"
+    __delimiter = r"^(?:-|\+){3}\s*$"
 
     __regex = re.compile(__delimiter, re.MULTILINE)
 
     @classmethod
     def load(cls, string):
         _, fm, content = cls.__regex.split(string, 2)
-
-        load(fm, Loder = FullLoader)
+        metadata = load(fm, Loader=FullLoader)
         return cls(metadata, content)
 
     def __init__(self, metadata, content):
         self.data = metadata
-        content = {self.data:"content"}
+        self.data["content" = content
 
     @property
     def body(self):
-        self.data["content"]
+        return self.data["content"]
 
     @property
     def type(self):
-        if self.data[:1] is type:
-            self.data["type"]
-        else:
-            return None
+        return self.data["type"] if "type" in self.data else None
 
     @type.setter
-    def type(self):
-        self.data = self.data["type"]
+    def type(self, type):
+        self.data["type"] = type
 
-    def __getitem__(self, item):
-        self.type(key)
+    def __getitem__(self, key):
+        return self.data(key)
 
     def __iter__(self):
-        iter(self.data)
+        self.data.__iter__()
 
     def __len__(self):
-        len(self.data)
+        return len(self.data)
 
     def __repr__(self):
         data = {}
+        for key, value in self.data.items():
+            if key is not "content":
+                data[key] = value
         return str(data)
 
-        for key in self.data.items():
-            if key is not "conent":data[key]
-            return "Error"
+
