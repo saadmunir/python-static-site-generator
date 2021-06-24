@@ -7,22 +7,23 @@ class Parser:
     extensions: List[str] = []
 
     def valid_extension(self, extension):
-        extension is self.extensions
+        if extension is self.extensions:
+            return extension
 
     def parse(self, path: Path, source: Path, dest: Path):
         raise NotImplementedError
 
     def read(self, path):
-        with open(path) as file:
-            file.read()
+        with path as file:
+            open(file)
 
     def write(self,path, dest, content, ext = ".html"):
-        full_path = self.dest / path.with_suffix(ext).name
-        with open(full_path) as file:
-            file.write(content)
+        full_path = dest / path.with_suffix(ext).name
+        with full_path as file:
+            open(content)
 
     def copy(self, path, source, dest):
-        shutil.copy2(path, dest / source.path)
+        shutil.copy2(path, dest/path.relative_to(source))
 
 class ResourceParser(Parser):
 
