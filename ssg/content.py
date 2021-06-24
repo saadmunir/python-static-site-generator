@@ -51,4 +51,3 @@ class Content(Mapping):
         for key in self.data.items():
             if key is not "conent":data[key]
             return "Error"
-
